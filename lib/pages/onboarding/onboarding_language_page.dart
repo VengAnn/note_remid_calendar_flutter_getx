@@ -1,0 +1,136 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:note_schedule_reminder/controllers/onboarding/onboarding_controller.dart';
+import 'package:note_schedule_reminder/route/route_helper.dart';
+import 'package:note_schedule_reminder/utils/dimensions.dart';
+import 'package:note_schedule_reminder/widgets/language_option.dart';
+import 'package:note_schedule_reminder/widgets/simple_text.dart';
+import 'package:note_schedule_reminder/services/share_preferences.dart';
+
+class OnBoardingLanguagePage extends StatelessWidget {
+  const OnBoardingLanguagePage({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    Get.put(SharedPreferencesService());
+    final SharedPreferencesService sharedPreferencesService =
+        Get.find<SharedPreferencesService>();
+    Get.put(OnboardingController());
+    return Scaffold(
+      body: GetBuilder<OnboardingController>(
+        builder: (onboardingController) {
+          return Padding(
+            padding: EdgeInsets.all(Dimensions.width20 / 1.5),
+            child: Column(
+              children: [
+                const Spacer(),
+                SimpleText(
+                  text: 'onboarding_primary_title'.tr,
+                  fontWeight: FontWeight.bold,
+                  sizeText: Dimensions.fontSize20,
+                ),
+                SimpleText(
+                  text: 'onboarding_secondary_title'.tr,
+                  fontWeight: FontWeight.bold,
+                  sizeText: Dimensions.fontSize15,
+                ),
+                //a bit space
+                SizedBox(height: Dimensions.height10),
+                Container(
+                  width: Dimensions.width20 * 13.5,
+                  height: Dimensions.height20 * 7,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(Dimensions.radius10),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: Dimensions.height5,
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        LanguageOption(
+                          onTap: () async {
+                            onboardingController.setSelectedLanguage("vi");
+                            await sharedPreferencesService
+                                .saveSelectedLanguage("vi");
+                            Get.updateLocale(
+                              const Locale('vi'),
+                            ); // Update locale language immedialy
+                          },
+                          textLanguage: "Tiếng việt",
+                          sizeText: Dimensions.fontSize15,
+                          imagePath: "assets/images/vietnam.png",
+                          isSelected: onboardingController.selectedLanguage ==
+                              "vi", // when selectedLanguage equal vi it's mean true otherwise fasle
+                        ),
+                        LanguageOption(
+                          onTap: () async {
+                            onboardingController.setSelectedLanguage("en");
+                            await sharedPreferencesService
+                                .saveSelectedLanguage("en");
+                            Get.updateLocale(
+                                const Locale('en')); // Update locale
+                          },
+                          textLanguage: "English",
+                          sizeText: Dimensions.fontSize15,
+                          imagePath: "assets/images/united-kingdom.png",
+                          isSelected:
+                              onboardingController.selectedLanguage == "en",
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const Spacer(),
+                // btn continue
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [Colors.blue, Colors.green],
+                          ),
+                          borderRadius: BorderRadius.circular(
+                            Dimensions.radius15 * 1.5,
+                          ),
+                        ),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            // ignore: deprecated_member_use
+                            primary: Colors.transparent,
+                            elevation: 0,
+                            foregroundColor: Colors.black,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                Dimensions.radius15 * 1.5,
+                              ),
+                            ),
+                          ),
+                          onPressed: () {
+                            // ignore: avoid_print
+                            print("continue");
+                            Get.toNamed(RouteHelper.getOnBoardingPage());
+                          },
+                          child: SimpleText(
+                            text: 'elevated_text'.tr,
+                            fontWeight: FontWeight.bold,
+                            sizeText: Dimensions.fontSize20,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
