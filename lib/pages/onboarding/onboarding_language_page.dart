@@ -36,7 +36,6 @@ class OnBoardingLanguagePage extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   sizeText: Dimensions.fontSize15,
                 ),
-                //a bit space
                 SizedBox(height: Dimensions.height10),
                 Container(
                   width: Dimensions.width20 * 13.5,
@@ -59,21 +58,20 @@ class OnBoardingLanguagePage extends StatelessWidget {
                                 .saveSelectedLanguage("vi");
                             Get.updateLocale(
                               const Locale('vi'),
-                            ); // Update locale language immedialy
+                            );
                           },
                           textLanguage: "Tiếng việt",
                           sizeText: Dimensions.fontSize15,
                           imagePath: "assets/images/vietnam.png",
-                          isSelected: onboardingController.selectedLanguage ==
-                              "vi", // when selectedLanguage equal vi it's mean true otherwise fasle
+                          isSelected:
+                              onboardingController.selectedLanguage == "vi",
                         ),
                         LanguageOption(
                           onTap: () async {
                             onboardingController.setSelectedLanguage("en");
                             await sharedPreferencesService
                                 .saveSelectedLanguage("en");
-                            Get.updateLocale(
-                                const Locale('en')); // Update locale
+                            Get.updateLocale(const Locale('en'));
                           },
                           textLanguage: "English",
                           sizeText: Dimensions.fontSize15,
@@ -86,40 +84,32 @@ class OnBoardingLanguagePage extends StatelessWidget {
                   ),
                 ),
                 const Spacer(),
-                // btn continue
                 Row(
                   children: [
                     Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [Colors.blue, Colors.green],
-                          ),
-                          borderRadius: BorderRadius.circular(
-                            Dimensions.radius15 * 1.5,
-                          ),
-                        ),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            // ignore: deprecated_member_use
-                            primary: Colors.transparent,
-                            elevation: 0,
-                            foregroundColor: Colors.black,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                Dimensions.radius15 * 1.5,
-                              ),
+                      child: InkWell(
+                        onTap: () {
+                          Get.toNamed(RouteHelper.getOnBoardingPage());
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [Colors.blue, Colors.green],
+                            ),
+                            borderRadius: BorderRadius.circular(
+                              Dimensions.radius15 * 1.5,
                             ),
                           ),
-                          onPressed: () {
-                            // ignore: avoid_print
-                            print("continue");
-                            Get.toNamed(RouteHelper.getOnBoardingPage());
-                          },
-                          child: SimpleText(
-                            text: 'elevated_text'.tr,
-                            fontWeight: FontWeight.bold,
-                            sizeText: Dimensions.fontSize20,
+                          padding: EdgeInsets.symmetric(
+                            vertical: Dimensions.height20,
+                          ),
+                          child: Center(
+                            child: SimpleText(
+                              text: 'elevated_text'.tr,
+                              fontWeight: FontWeight.bold,
+                              sizeText: Dimensions.fontSize20,
+                              textColor: Colors.black,
+                            ),
                           ),
                         ),
                       ),
