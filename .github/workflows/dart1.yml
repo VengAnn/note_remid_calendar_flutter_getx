@@ -14,11 +14,15 @@ jobs:
         with:
           channel: 'stable'
           architecture: x64
-      - run: flutter pub get
-      
 
-      - run: pod repo update
-        working-directory: ios
+      - run: flutter pub get
+
+      - run: |
+          cd ios
+          echo "Setting platform :ios, '12.0' in Podfile"
+          sed -i '' '1s/^/platform :ios, \'12.0\'\n/' Podfile
+          pod repo update
+          pod install
 
       - run: flutter build ios --release --no-codesign
 
