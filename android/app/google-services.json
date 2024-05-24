@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "440677169908",
+    "project_id": "flutter-note-remider",
+    "storage_bucket": "flutter-note-remider.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440677169908:android:848771723a8d8935fffca1",
+        "android_client_info": {
+          "package_name": "com.example.note_schedule_reminder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440677169908-1mkk4ea9acc8qr3l8e5o1ld504hcudb5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqRB4Ee-6FyZVAikvJoDMRT3DxFIEKnbM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440677169908-1mkk4ea9acc8qr3l8e5o1ld504hcudb5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

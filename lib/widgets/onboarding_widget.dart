@@ -1,8 +1,4 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:note_schedule_reminder/route/route_helper.dart';
 import 'package:note_schedule_reminder/utils/app_color.dart';
 import 'package:note_schedule_reminder/utils/dimensions.dart';
 import 'package:note_schedule_reminder/widgets/simple_text.dart';

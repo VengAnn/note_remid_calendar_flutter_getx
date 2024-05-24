@@ -1,9 +1,10 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:note_schedule_reminder/components/dialog_show.dart';
+import 'package:note_schedule_reminder/components/my_drawer.dart';
 import 'package:note_schedule_reminder/controllers/calendar_page_controller.dart';
+import 'package:note_schedule_reminder/services/auth_service.dart';
+import 'package:note_schedule_reminder/utils/dimensions.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class CalendarPage extends StatefulWidget {
@@ -19,10 +20,22 @@ class _CalendarPageState extends State<CalendarPage> {
 
   @override
   Widget build(BuildContext context) {
+    //print("calendarPage ${AuthService.auth.currentUser}");
     return Scaffold(
       appBar: AppBar(
+        // automaticallyImplyLeading: false,
         title: const Text('Calendar'),
+        actions: [
+          CircleAvatar(
+            radius: Dimensions.radius20,
+            child: const Icon(Icons.person),
+          ),
+          SizedBox(
+            width: Dimensions.width5,
+          ),
+        ],
       ),
+      drawer: const MyDrawer(),
       body: GetBuilder<CalendarPageController>(
         builder: (calendarController) {
           return Center(

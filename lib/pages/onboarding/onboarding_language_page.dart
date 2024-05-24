@@ -8,8 +8,11 @@ import 'package:note_schedule_reminder/widgets/simple_text.dart';
 import 'package:note_schedule_reminder/services/share_preferences.dart';
 
 class OnBoardingLanguagePage extends StatelessWidget {
+  final bool isHomePage;
+
   const OnBoardingLanguagePage({
     super.key,
+    this.isHomePage = false,
   });
 
   @override
@@ -89,9 +92,15 @@ class OnBoardingLanguagePage extends StatelessWidget {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          Get.toNamed(RouteHelper.getOnBoardingPage());
+                          if (isHomePage) {
+                            // if true navigate to the calendar page
+                            Get.toNamed(RouteHelper.getCalenderPage());
+                          } else {
+                            Get.toNamed(RouteHelper.getOnBoardingPage());
+                          }
                         },
                         child: Container(
+                          height: Dimensions.height20 * 2,
                           decoration: BoxDecoration(
                             gradient: const LinearGradient(
                               colors: [Colors.blue, Colors.green],
@@ -99,9 +108,6 @@ class OnBoardingLanguagePage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(
                               Dimensions.radius15 * 1.5,
                             ),
-                          ),
-                          padding: EdgeInsets.symmetric(
-                            vertical: Dimensions.height20,
                           ),
                           child: Center(
                             child: SimpleText(

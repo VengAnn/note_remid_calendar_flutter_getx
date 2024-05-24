@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:note_schedule_reminder/pages/auth/login_page.dart';
+import 'package:note_schedule_reminder/pages/auth/sign_up_page.dart';
 import 'package:note_schedule_reminder/pages/home/calender_page.dart';
 import 'package:note_schedule_reminder/pages/onboarding/onboarding_language_page.dart';
 import 'package:note_schedule_reminder/pages/onboarding/onboarding_page.dart';
@@ -16,6 +17,8 @@ class RouteHelper {
   static const String _onBoardingTwo = "/onboarding-two";
   static const String _onBoardingThree = "/onboarding-three";
   static const String _loginPage = "/login-page";
+  static const String _signUpPage = "/sign-up";
+  static const String _calenderPage = "/calender-page";
 
   // get all route
   static String getInitial() => _initial;
@@ -28,6 +31,9 @@ class RouteHelper {
   static String getOnBoardingThree() => _onBoardingThree;
   // auth
   static String getLoginPage() => _loginPage;
+  static String getSignUpPage() => _signUpPage;
+  // home
+  static String getCalenderPage() => _calenderPage;
 
   static List<GetPage> routes = [
     GetPage(name: _splashPage, page: () => const SplashPage()),
@@ -38,7 +44,10 @@ class RouteHelper {
     ),
     GetPage(
       name: _onBoardingLanguagePage,
-      page: () => const OnBoardingLanguagePage(),
+      page: () {
+        var isHomePage = Get.arguments as bool; // Retrieve the argument
+        return OnBoardingLanguagePage(isHomePage: isHomePage);
+      },
       transition: Transition.fade,
     ),
     GetPage(
@@ -64,9 +73,21 @@ class RouteHelper {
       page: () => const OnBoardingPageThree(),
       transition: Transition.fade,
     ),
+    /////auth
     GetPage(
       name: _loginPage,
       page: () => const LoginPage(),
+      transition: Transition.fade,
+    ),
+    GetPage(
+      name: _signUpPage,
+      page: () => const SignUpPage(),
+      transition: Transition.fade,
+    ),
+    // home
+    GetPage(
+      name: _calenderPage,
+      page: () => const CalendarPage(),
       transition: Transition.fade,
     ),
   ];

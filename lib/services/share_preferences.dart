@@ -12,4 +12,16 @@ class SharedPreferencesService extends GetxService {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('selectedLanguage');
   }
+
+  /// Saves onboard is exists
+  static Future<void> saveOnboardingExist(bool isExist) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("onboardingExist", isExist);
+  }
+
+  // load or get OnboardingExist
+  static Future<bool> loadOnboardingExist() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool("onboardingExist") ?? false;
+  }
 }

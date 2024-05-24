@@ -1,11 +1,10 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:note_schedule_reminder/pages/onboarding/onboarding_one.dart';
 import 'package:note_schedule_reminder/pages/onboarding/onboarding_three.dart';
 import 'package:note_schedule_reminder/pages/onboarding/onboarding_two.dart';
 import 'package:note_schedule_reminder/route/route_helper.dart';
+import 'package:note_schedule_reminder/services/share_preferences.dart';
 import 'package:note_schedule_reminder/utils/app_color.dart';
 import 'package:note_schedule_reminder/utils/dimensions.dart';
 import 'package:note_schedule_reminder/widgets/simple_text.dart';
@@ -92,6 +91,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                   child: InkWell(
                     onTap: () {
                       Get.toNamed(RouteHelper.getLoginPage());
+                      // save is Onboarding is already show
+                      SharedPreferencesService.saveOnboardingExist(true);
                     },
                     child: SimpleText(
                       text: 'login_text'.tr,

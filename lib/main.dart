@@ -1,12 +1,23 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:note_schedule_reminder/pages/auth/login_page.dart';
+import 'package:note_schedule_reminder/firebase_options.dart';
+import 'package:note_schedule_reminder/pages/auth/sign_up_page.dart';
 import 'package:note_schedule_reminder/route/route_helper.dart';
 import 'package:note_schedule_reminder/services/share_preferences.dart';
 import 'package:note_schedule_reminder/translations/app_translate.dart';
 
+Future<void> _initializeFirebare() async {
+  // initialize with firebare credentials
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  _initializeFirebare();
+
   // Initialize SharedPreferencesService
   SharedPreferencesService sharedPreferencesService =
       SharedPreferencesService();
@@ -16,7 +27,6 @@ void main() async {
   if (selectedLanguage == null || selectedLanguage.isEmpty) {
     selectedLanguage = 'en';
   }
-
   runApp(
     MyApp(selectedLanguage: selectedLanguage),
   );
@@ -37,16 +47,16 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         scaffoldBackgroundColor: Colors.white.withOpacity(0.9),
       ),
-      // translations: AppTranslations(),
-      // locale: Locale(selectedLanguage), // Use selected language
-      // fallbackLocale: const Locale('en'),
-      // initialRoute: RouteHelper.getSplashPage(),
+      translations: AppTranslations(),
+      locale: Locale(selectedLanguage), // Use selected language
+      fallbackLocale: const Locale('en'),
+      //initialRoute: RouteHelper.getSplashPage(),
+      //initialRoute: RouteHelper.getlogin(),
       //getPages: RouteHelper.routes,
-      home: const LoginPage(),
+      home: const SignUpPage(),
     );
   }
 }
-
 
 // class MyHomePage extends StatefulWidget {
 //   const MyHomePage({Key? key, required this.title}) : super(key: key);

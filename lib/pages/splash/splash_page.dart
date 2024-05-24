@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:note_schedule_reminder/route/route_helper.dart';
 import 'package:lottie/lottie.dart';
+import 'package:note_schedule_reminder/services/auth_service.dart';
+import 'package:note_schedule_reminder/services/share_preferences.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -25,12 +28,29 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
       duration: const Duration(seconds: 2),
     )..forward();
     animation = CurvedAnimation(parent: controller, curve: Curves.linear);
-    Timer(
-      const Duration(seconds: 3),
-      () => Get.offNamed(
-        RouteHelper.getOnBoardingLanguagePage(),
-      ),
-    );
+    Timer(const Duration(seconds: 3), () async {
+      // if user already logged in or authenticated navigation to home page
+      if (AuthService.auth.currentUser != null) {
+        Get.offNamed(
+          RouteHelper.getCalenderPage(),
+        );
+      } else {
+        // if user not logged in or not authenticated navigation to login page
+        // we check if onboarding page is already show (mean existing) navigation to login page
+        bool isExistOnboarding =
+            await SharedPreferencesService.loadOnboardingExist();
+        if (isExistOnboarding) {
+          Get.offNamed(
+            RouteHelper.getLoginPage(),
+          );
+        } else {
+          Get.offNamed(
+            RouteHelper.getOnBoardingLanguagePage(),
+            arguments: false,
+          );
+        }
+      }
+    });
   }
 
   @override

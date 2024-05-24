@@ -16,6 +16,20 @@ class AppTranslations extends Translations {
           'onboarding_three_text':
               'Tailor your experience to suit your needs. Customize settings, personalize your calendar, and make this app truly yours. Enjoy a seamless journey as you navigate through your tasks and events effortlessly.',
           'login_text': 'Login',
+          'register_text': 'Registration',
+          'email_text': 'Email',
+          'user_name_text': 'User Name',
+          'password_text': 'Password',
+          'confirm_password_text': 'Confirm Password',
+          'forgot_password_text': 'Forgot Password',
+          'have_accout_text': 'You don\'t have an accout? ',
+          'already_have_accout_text': 'Already have an accout? ',
+          'sign_up_text': 'Sign Up',
+          // calendar page
+          'title_appbar_text': 'Calendar',
+          // drawer on  appbar
+          'week_text': 'Week',
+          'month_text': 'Month',
         },
         'vi': {
           'splash_text': 'Lời nhắc lịch',
@@ -30,6 +44,20 @@ class AppTranslations extends Translations {
           'onboarding_three_text':
               'Tùy chỉnh trải nghiệm của bạn để phù hợp với nhu cầu của bạn. Tùy chỉnh cài đặt, cá nhân hóa lịch của bạn và biến ứng dụng này thành của riêng bạn. Hãy tận hưởng một hành trình mượt mà khi bạn điều hướng qua các nhiệm vụ và sự kiện của mình một cách dễ dàng.',
           'login_text': 'Đăng nhập',
+          'email_text': 'Email',
+          'register_text': 'Đăng ký',
+          'user_name_text': 'Tên tài khoản',
+          'password_text': 'Mật khẩu',
+          'confirm_password_text': 'Xác nhận mật khẩu',
+          'forgot_password_text': 'Quên mật khẩu',
+          'have_accout_text': 'Bạn chưa có tài khoản? ',
+          'already_have_accout_text': 'Bạn đã có tài khoản? ',
+          'sign_up_text': 'Đăng ký',
+          // calendar page
+          'title_appbar_text': 'Lịch',
+          // drawer on  appbar
+          'week_text': 'Tuần',
+          'month_text': 'Tháng',
         },
       };
 }

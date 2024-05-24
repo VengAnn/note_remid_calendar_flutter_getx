@@ -40,9 +40,16 @@ dependencies:
   get: ^4.6.6
   # formate times
   intl: ^0.18.1
+  # animation icon .json
   lottie: ^3.1.0
   # local storage
   shared_preferences: ^2.2.2
+  #  initializes Firebase in your app and is required to use any other Firebase services (like Firebase Authentication, Firestore...)
+  firebase_core: ^2.27.0
+  # It supports various authentication methods, including email/password, phone authentication, and third-party providers like Google, Facebook, and more.
+  firebase_auth: ^4.17.8
+  # To access Google Sign-In
+  google_sign_in: ^6.2.1
 
 dev_dependencies:
   flutter_test:

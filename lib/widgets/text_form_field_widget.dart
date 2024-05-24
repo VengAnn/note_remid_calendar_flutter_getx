@@ -10,6 +10,8 @@ class TextFormFieldWidget extends StatelessWidget {
   final IconData icon;
   final IconData? iconSuffix;
   final bool showIconSuffix;
+  final VoidCallback? onTap;
+  final bool obscureText;
 
   const TextFormFieldWidget({
     super.key,
@@ -17,8 +19,10 @@ class TextFormFieldWidget extends StatelessWidget {
     required this.hintText,
     required this.titleText,
     required this.icon,
-     this.iconSuffix,
+    this.iconSuffix,
     this.showIconSuffix = false,
+    this.obscureText = false,
+    this.onTap,
   });
 
   @override
@@ -33,7 +37,7 @@ class TextFormFieldWidget extends StatelessWidget {
         ),
         Container(
           decoration: BoxDecoration(
-            color: Colors.amber,
+            color: Colors.grey.shade200,
             borderRadius: BorderRadius.all(
               Radius.circular(Dimensions.radius15),
             ),
@@ -44,9 +48,14 @@ class TextFormFieldWidget extends StatelessWidget {
               border: InputBorder.none,
               prefixIcon: Icon(icon),
               hintText: hintText,
-              suffixIcon:
-                  showIconSuffix == true ? Icon(iconSuffix) : const SizedBox(),
+              suffixIcon: showIconSuffix == true
+                  ? GestureDetector(
+                      onTap: onTap,
+                      child: Icon(iconSuffix),
+                    )
+                  : const SizedBox(),
             ),
+            obscureText: obscureText,
           ),
         ),
       ],
