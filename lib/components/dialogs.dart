@@ -24,4 +24,8 @@ class Dialogs {
       ),
     );
   }
+
+  static void hideProgressBar(BuildContext context) {
+    Navigator.of(context, rootNavigator: true).pop();
+  }
 }

@@ -8,73 +8,76 @@ class MyDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      backgroundColor: Theme.of(context).colorScheme.background,
-      child: Column(
-        children: [
-          //logo
-          DrawerHeader(
-            child: Center(
-              child: Icon(
-                Icons.calendar_today_rounded,
-                size: Dimensions.width20 * 2,
-                color: Theme.of(context).colorScheme.inversePrimary,
+    return SafeArea(
+      child: Drawer(
+        // ignore: deprecated_member_use
+        backgroundColor: Theme.of(context).colorScheme.background,
+        child: Column(
+          children: [
+            //logo
+            DrawerHeader(
+              child: Center(
+                child: Icon(
+                  Icons.calendar_today_rounded,
+                  size: Dimensions.width20 * 2,
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                ),
               ),
             ),
-          ),
 
-          // week tile
-          Padding(
-            padding: EdgeInsets.only(
-              top: Dimensions.width10,
-              left: Dimensions.width10,
-            ),
-            child: ListTile(
-              title: const Text("Week"),
-              leading: const Icon(Icons.calendar_view_week_outlined),
-              onTap: () => Get.back(),
-            ),
-          ),
-
-          // Month tile
-          Padding(
-            padding: EdgeInsets.only(
-              top: Dimensions.width10,
-              left: Dimensions.width10,
-            ),
-            child: ListTile(
-              title: const Text("Month"),
-              leading: const Icon(Icons.calendar_month_outlined),
-              onTap: () {
-                // pop drawer
-                Navigator.of(context).pop();
-
-                // // Navigation to settings
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => const SettingPage(),
-                //   ),
-                // );
-              },
-            ),
-          ),
-          // change language
-          Padding(
-            padding: EdgeInsets.only(
-              top: Dimensions.width10,
-              left: Dimensions.width10,
-            ),
-            child: ListTile(
-              title: const Text("Change Language"),
-              leading: const Icon(Icons.language_outlined),
-              onTap: () => Get.toNamed(
-                RouteHelper.getOnBoardingLanguagePage(),
-                arguments: true,
+            // week tile
+            Padding(
+              padding: EdgeInsets.only(
+                top: Dimensions.width10,
+                left: Dimensions.width10,
+              ),
+              child: ListTile(
+                title: Text("week_text".tr),
+                leading: const Icon(Icons.calendar_view_week_outlined),
+                onTap: () => Get.back(),
               ),
             ),
-          ),
-        ],
+
+            // Month tile
+            Padding(
+              padding: EdgeInsets.only(
+                top: Dimensions.width10,
+                left: Dimensions.width10,
+              ),
+              child: ListTile(
+                title: Text("month_text".tr),
+                leading: const Icon(Icons.calendar_month_outlined),
+                onTap: () {
+                  // pop drawer
+                  Navigator.of(context).pop();
+
+                  // // Navigation to settings
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => const SettingPage(),
+                  //   ),
+                  // );
+                },
+              ),
+            ),
+            // change language
+            Padding(
+              padding: EdgeInsets.only(
+                top: Dimensions.width10,
+                left: Dimensions.width10,
+              ),
+              child: ListTile(
+                title: Text("change_language_text".tr),
+                leading: const Icon(Icons.language_outlined),
+                onTap: () => Get.toNamed(
+                  RouteHelper.getOnBoardingLanguagePage(),
+                  arguments: true,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

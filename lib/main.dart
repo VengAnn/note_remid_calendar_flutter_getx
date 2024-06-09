@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:note_schedule_reminder/firebase_options.dart';
-import 'package:note_schedule_reminder/pages/auth/sign_up_page.dart';
 import 'package:note_schedule_reminder/route/route_helper.dart';
 import 'package:note_schedule_reminder/services/share_preferences.dart';
 import 'package:note_schedule_reminder/translations/app_translate.dart';
@@ -51,9 +50,9 @@ class MyApp extends StatelessWidget {
       locale: Locale(selectedLanguage), // Use selected language
       fallbackLocale: const Locale('en'),
       //initialRoute: RouteHelper.getSplashPage(),
-      //initialRoute: RouteHelper.getlogin(),
-      //getPages: RouteHelper.routes,
-      home: const SignUpPage(),
+      initialRoute: RouteHelper.getLoginPage(),
+      getPages: RouteHelper.routes,
+      //home: const SignUpPage(),
     );
   }
 }

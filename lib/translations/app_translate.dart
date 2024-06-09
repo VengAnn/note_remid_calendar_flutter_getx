@@ -30,6 +30,9 @@ class AppTranslations extends Translations {
           // drawer on  appbar
           'week_text': 'Week',
           'month_text': 'Month',
+          'change_language_text': 'Change language',
+
+          'text_valid_email': 'Invalid email',
         },
         'vi': {
           'splash_text': 'Lời nhắc lịch',
@@ -58,6 +61,9 @@ class AppTranslations extends Translations {
           // drawer on  appbar
           'week_text': 'Tuần',
           'month_text': 'Tháng',
+          'change_language_text': 'Thay đổi ngôn ngữ',
+
+          'text_valid_email': 'Email không hợp lệ',
         },
       };
 }

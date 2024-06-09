@@ -50,6 +50,14 @@ dependencies:
   firebase_auth: ^4.17.8
   # To access Google Sign-In
   google_sign_in: ^6.2.1
+  # for picking image
+  image_picker: ^1.0.7
+  # dio like package http
+  dio: ^5.4.1
+  # for loading animations
+  loading_animation_widget: ^1.2.1
+  # for alert messages
+  quickalert: ^1.1.0
 
 dev_dependencies:
   flutter_test:
