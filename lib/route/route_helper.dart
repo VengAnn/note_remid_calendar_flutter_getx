@@ -1,7 +1,10 @@
 import 'package:get/get.dart';
+import 'package:note_schedule_reminder/middleware/main_middleware.dart';
 import 'package:note_schedule_reminder/pages/auth/login_page.dart';
 import 'package:note_schedule_reminder/pages/auth/sign_up_page.dart';
+import 'package:note_schedule_reminder/pages/history/history_page.dart';
 import 'package:note_schedule_reminder/pages/home/calender_page.dart';
+import 'package:note_schedule_reminder/pages/home/detail_task_page.dart';
 import 'package:note_schedule_reminder/pages/onboarding/onboarding_language_page.dart';
 import 'package:note_schedule_reminder/pages/onboarding/onboarding_page.dart';
 import 'package:note_schedule_reminder/pages/onboarding/onboarding_three.dart';
@@ -9,7 +12,7 @@ import 'package:note_schedule_reminder/pages/onboarding/onboarding_two.dart';
 import 'package:note_schedule_reminder/pages/splash/splash_page.dart';
 
 class RouteHelper {
-  static const _initial = "/";
+  //static const _initial = "/";
   static const String _splashPage = "/splash-page";
   static const String _onBoardingLanguagePage = "/onboarding-language-page";
   static const String _onBoardingPage = "/onboarding-page";
@@ -19,9 +22,11 @@ class RouteHelper {
   static const String _loginPage = "/login-page";
   static const String _signUpPage = "/sign-up";
   static const String _calenderPage = "/calender-page";
+  static const String _historyPage = "/history-page";
+  static const String _DetailTaskPage = "/detail-task-page";
 
   // get all route
-  static String getInitial() => _initial;
+  //static String getInitial() => _initial;
   static String getSplashPage() => _splashPage;
   // on boarding
   static String getOnBoardingLanguagePage() => _onBoardingLanguagePage;
@@ -34,13 +39,13 @@ class RouteHelper {
   static String getSignUpPage() => _signUpPage;
   // home
   static String getCalenderPage() => _calenderPage;
+  static String getHistoryPage() => _historyPage;
+  static String getDetailTaskPage() => _DetailTaskPage;
 
   static List<GetPage> routes = [
-    GetPage(name: _splashPage, page: () => const SplashPage()),
     GetPage(
-      name: _initial,
-      page: () => const CalendarPage(),
-      transition: Transition.fade,
+      name: _splashPage,
+      page: () => const SplashPage(),
     ),
     GetPage(
       name: _onBoardingLanguagePage,
@@ -78,6 +83,11 @@ class RouteHelper {
       name: _loginPage,
       page: () => const LoginPage(),
       transition: Transition.fade,
+      middlewares: [
+        //middleWare check if token = null return to login screen
+        //if already login return to mainscreen
+        MainMiddleWare(),
+      ],
     ),
     GetPage(
       name: _signUpPage,
@@ -87,7 +97,19 @@ class RouteHelper {
     // home
     GetPage(
       name: _calenderPage,
-      page: () => const CalendarPage(),
+      page: () => CalendarPage(),
+      transition: Transition.fade,
+    ),
+    // history page
+    GetPage(
+      name: _historyPage,
+      page: () => HistoryPage(),
+      transition: Transition.fade,
+    ),
+    // detail task page
+    GetPage(
+      name: _DetailTaskPage,
+      page: () => DetailTaskPage(),
       transition: Transition.fade,
     ),
   ];

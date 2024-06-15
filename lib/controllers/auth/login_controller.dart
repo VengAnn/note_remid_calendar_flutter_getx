@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:note_schedule_reminder/components/dialogs.dart';
 import 'package:note_schedule_reminder/data/repository_impl/auth/auth_google_impl.dart';
@@ -30,7 +29,10 @@ class LoginController extends GetxController {
       if (user != null) {
         // If successfully logged in
         // First we need to save token
-        await SharedPreferencesService.saveToken(user.token!);
+        SharedPreferencesService.saveToken(user.token!);
+
+        // save user id
+        SharedPreferencesService.saveUserId(user.user!.userId!);
 
         Get.offAllNamed(RouteHelper.getCalenderPage());
         // delay a bit to something smooth
@@ -41,61 +43,83 @@ class LoginController extends GetxController {
       } else {
         isLoading = false;
         update();
-        Dialogs.showSnackBar(
-            "email, password went wrong OR something is wrong!");
+
+        QuickAlert.show(
+          context: Get.context!,
+          type: QuickAlertType.warning,
+          text: 'email, password went wrong OR something is wrong!',
+        );
       }
     } catch (e) {
       isLoading = false;
       update();
-      Dialogs.showSnackBar("Error: $e");
-      log("Error: $e");
+
+      QuickAlert.show(
+        context: Get.context!,
+        type: QuickAlertType.error,
+        text: 'error: $e',
+      );
     }
   }
 
   void logout() async {
-    isLoading = true;
-    update();
     try {
+      isLoading = true;
+      update();
+
       bool success = await authRepoImpl!.logout();
       if (success) {
-        await SharedPreferencesService.clearToken();
+        SharedPreferencesService.clearToken();
         await Get.offAllNamed(RouteHelper.getLoginPage());
+        // when logout is successfully clear something from local storage
+        SharedPreferencesService.clearUserId();
+        SharedPreferencesService.clearToken();
 
         isLoading = false;
         update();
       } else {
-        Dialogs.showSnackBar("can't logout Something went wrong!");
         isLoading = false;
         update();
+
+        Dialogs.showSnackBar("can't logout Something went wrong!");
       }
     } catch (e) {
-      log("Error: $e");
       isLoading = false;
       update();
+
       Dialogs.showSnackBar("Error: $e");
     }
   }
 
   // auth google authentication with my personal backend
-  void loginWithGoogle(String email, String name, String? photoUrl) async {
+  void loginWithGoogle(String email, String name) async {
     try {
       isLoading = true;
       update();
 
-      final UserAuthRes? userAuthRes = await authGoogleImpl
+      final Map<String, dynamic> response = await authGoogleImpl
           .authGoogleRegisterToMyBackend(email: email, name: name);
 
-      if (userAuthRes != null) {
+      // ignore: unnecessary_null_comparison
+      if (response != null && response['success'].containsKey('token')) {
+        // save user id to local storage
+        String userId = response['success']['user_id'];
+        SharedPreferencesService.saveUserId(int.parse(userId));
+
         // If successfully logged in
         // First we need to save token
-        await SharedPreferencesService.saveToken(userAuthRes.token!);
+        String token = response['success']['token'];
+        SharedPreferencesService.saveToken(token);
         Get.offAllNamed(RouteHelper.getCalenderPage());
 
+        // Stop loading after a slight delay to ensure navigation is complete
+        await Future.delayed(const Duration(milliseconds: 200));
         isLoading = false;
         update();
       } else {
         isLoading = false;
         update();
+
         QuickAlert.show(
           context: Get.context!,
           type: QuickAlertType.warning,
@@ -105,6 +129,7 @@ class LoginController extends GetxController {
     } catch (e) {
       isLoading = false;
       update();
+
       QuickAlert.show(
         context: Get.context!,
         type: QuickAlertType.error,

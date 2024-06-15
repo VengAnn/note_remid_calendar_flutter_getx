@@ -1,57 +1,61 @@
-import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SharedPreferencesService extends GetxService {
-  Future<void> saveSelectedLanguage(String languageCode) async {
-    final prefs = await SharedPreferences.getInstance();
+class SharedPreferencesService {
+  static late SharedPreferences _prefs;
 
-    await prefs.setString('selectedLanguage', languageCode);
+  static Future<void> init() async {
+    // initialize shared preferences
+    _prefs = await SharedPreferences.getInstance();
   }
 
-  Future<String?> loadSelectedLanguage() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('selectedLanguage');
+  static void saveSelectedLanguage(String languageCode) {
+    _prefs.setString('selectedLanguage', languageCode);
   }
 
-  /// Saves onboard is exists
-  static Future<void> saveOnboardingExist(bool isExist) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool("onboardingExist", isExist);
+  static String? loadSelectedLanguage() {
+    return _prefs.getString('selectedLanguage');
   }
 
-  // load or get OnboardingExist
-  static Future<bool> loadOnboardingExist() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool("onboardingExist") ?? false;
+  static void saveOnboardingExist(bool isExist) {
+    _prefs.setBool("onboardingExist", isExist);
   }
 
-  // save token
-  static Future<void> saveToken(String token) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString("token", token);
+  static bool loadOnboardingExist() {
+    return _prefs.getBool("onboardingExist") ?? false;
   }
 
-  // get token
-  static Future<String?> getToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString("token");
+  static void saveToken(String token) {
+    _prefs.setString("token", token);
   }
 
-  // clear token
-  static Future<void> clearToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove("token");
+  static String? getToken() {
+    return _prefs.getString("token");
   }
 
-  // save to know user login with google authentication or with my backend
-  static Future<void> saveIsLoginWithGoogle(bool isLogin) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool("isLoginWithGoogle", isLogin);
+  static void clearToken() {
+    _prefs.remove("token");
   }
 
-  // clear
-  static Future<void> clearIsLoginWithGoogle() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove("isLoginWithGoogle");
+  static void saveIsLoginWithGoogle(bool isLogin) {
+    _prefs.setBool("isLoginWithGoogle", isLogin);
+  }
+
+  static void clearIsLoginWithGoogle() {
+    _prefs.remove("isLoginWithGoogle");
+  }
+
+  // save user id int
+  static void saveUserId(int userId) {
+    _prefs.setInt("userId", userId);
+  }
+
+  // get user id int
+  static int getUserId() {
+    return _prefs.getInt("userId") ?? 0;
+  }
+
+  // clear user id int
+  static void clearUserId() {
+    _prefs.remove("userId");
   }
 }

@@ -33,9 +33,13 @@ class _LoginPageState extends State<LoginPage> {
   bool _loginBtnTapped = false; // Track if the login button is tapped
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Get.put(LoginController());
-
     // Check if the keyboard is open
     bool isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom != 0;
     return GestureDetector(
@@ -51,6 +55,8 @@ class _LoginPageState extends State<LoginPage> {
               : const NeverScrollableScrollPhysics(),
           child: GetBuilder<LoginController>(
             builder: (loginController) {
+              log("loading login: ${loginController.isLoading}");
+
               if (loginController.isLoading) {
                 return SizedBox(
                   height: Dimensions.screenHeight,
@@ -189,20 +195,20 @@ class _LoginPageState extends State<LoginPage> {
                               UserCredential? userCredential =
                                   await AuthService.signInWithGoogle();
                               Dialogs.hideProgressBar(
+                                  // ignore: use_build_context_synchronously
                                   context); // Hide loading in both cases
 
                               if (userCredential != null) {
-                                log('Sign-in successful: ${userCredential.credential?.accessToken}');
-
                                 // Access user information
-                                var displayName = userCredential
+                                var name = userCredential
                                     .additionalUserInfo?.profile?['name'];
                                 var email = userCredential
                                     .additionalUserInfo?.profile?['email'];
-                                var photoUrl = userCredential
-                                    .additionalUserInfo?.profile?['picture'];
+                                // var photoUrl = userCredential
+                                //     .additionalUserInfo?.profile?['picture'];
 
                                 log("email: $email");
+                                loginController.loginWithGoogle(email, name);
 
                                 SharedPreferencesService.saveIsLoginWithGoogle(
                                     true);

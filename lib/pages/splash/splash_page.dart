@@ -1,12 +1,11 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:note_schedule_reminder/route/route_helper.dart';
 import 'package:lottie/lottie.dart';
-import 'package:note_schedule_reminder/services/auth_service.dart';
 import 'package:note_schedule_reminder/services/share_preferences.dart';
+import 'package:note_schedule_reminder/utils/dimensions.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -30,25 +29,25 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
     animation = CurvedAnimation(parent: controller, curve: Curves.linear);
     Timer(const Duration(seconds: 3), () async {
       // if user already logged in or authenticated navigation to home page
-      if (AuthService.auth.currentUser != null) {
+      // if (AuthService.auth.currentUser != null) {
+      //   Get.offNamed(
+      //     RouteHelper.getCalenderPage(),
+      //   );
+      // }
+
+      // if user not logged in or not authenticated navigation to login page
+      // we check if onboarding page is already show (mean existing) navigation to login page
+      bool isExistOnboarding =
+          await SharedPreferencesService.loadOnboardingExist();
+      if (isExistOnboarding) {
         Get.offNamed(
-          RouteHelper.getCalenderPage(),
+          RouteHelper.getLoginPage(),
         );
       } else {
-        // if user not logged in or not authenticated navigation to login page
-        // we check if onboarding page is already show (mean existing) navigation to login page
-        bool isExistOnboarding =
-            await SharedPreferencesService.loadOnboardingExist();
-        if (isExistOnboarding) {
-          Get.offNamed(
-            RouteHelper.getLoginPage(),
-          );
-        } else {
-          Get.offNamed(
-            RouteHelper.getOnBoardingLanguagePage(),
-            arguments: false,
-          );
-        }
+        Get.offNamed(
+          RouteHelper.getOnBoardingLanguagePage(),
+          arguments: false,
+        );
       }
     });
   }
@@ -73,7 +72,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: Dimensions.height10),
           Center(
             child: Text(
               'splash_text'.tr,

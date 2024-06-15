@@ -28,11 +28,25 @@ class AppTranslations extends Translations {
           // calendar page
           'title_appbar_text': 'Calendar',
           // drawer on  appbar
+          'day_text': 'Day',
           'week_text': 'Week',
           'month_text': 'Month',
           'change_language_text': 'Change language',
+          'history_text': 'History',
 
           'text_valid_email': 'Invalid email',
+
+          // histroy page
+          'title_text_histroy': 'Task Histroy',
+          'text_task_complete': 'Task completed',
+          'text_task_not_complete': 'Task not completed',
+          // Detail page
+          'title_text_detailPage': 'Detail Task',
+          'text_min_before_detailPage': 'minutes before',
+          'text_startTime': 'Start time',
+          'text_endTime': 'End time',
+          'text_repeat': 'Repeat',
+          'text_search': 'Search',
         },
         'vi': {
           'splash_text': 'Lời nhắc lịch',
@@ -59,11 +73,25 @@ class AppTranslations extends Translations {
           // calendar page
           'title_appbar_text': 'Lịch',
           // drawer on  appbar
+          'day_text': 'Ngày',
           'week_text': 'Tuần',
           'month_text': 'Tháng',
           'change_language_text': 'Thay đổi ngôn ngữ',
+          'history_text': 'Lịch sử',
 
           'text_valid_email': 'Email không hợp lệ',
+
+          // histroy page
+          "title_text_histroy": 'Lịch sử nhiệm vụ',
+          'text_task_complete': 'Nhiệm vụ hoàn thành',
+          'text_task_not_complete': 'Nhiệm vụ chưa hoàn thành',
+          // Detail page
+          'title_text_detailPage': 'Chi tiết nhiệm vụ',
+          'text_min_before_detailPage': 'phút trước',
+          'text_startTime': 'Thời gian bắt đầu',
+          'text_endTime': 'Thời gian kết thúc',
+          'text_repeat': 'Lặp lại',
+          'text_search': 'Tìm kiếm',
         },
       };
 }

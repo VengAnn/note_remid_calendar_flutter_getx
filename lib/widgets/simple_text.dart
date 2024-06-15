@@ -6,6 +6,7 @@ class SimpleText extends StatelessWidget {
   final double? sizeText;
   final FontWeight fontWeight;
   final Color? textColor;
+  final TextAlign? textAlign;
 
   const SimpleText({
     super.key,
@@ -13,6 +14,7 @@ class SimpleText extends StatelessWidget {
     this.sizeText,
     this.fontWeight = FontWeight.normal,
     this.textColor,
+    this.textAlign = TextAlign.center,
   });
 
   @override
@@ -24,7 +26,7 @@ class SimpleText extends StatelessWidget {
         fontWeight: fontWeight,
         color: textColor ?? Colors.black,
       ),
-      textAlign: TextAlign.center,
+      textAlign: textAlign,
     );
   }
 }

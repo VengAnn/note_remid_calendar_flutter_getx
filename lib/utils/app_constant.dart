@@ -3,10 +3,13 @@
 class AppConstant {
   static const String Base_Url = "http://192.168.3.15:8000/api/v1";
 
-  //
+  //auth endpoint
   static const String Login_EndPoint = "/auth/login";
   static const String Logout_EndPoint = "/auth/logout";
   static const String Register_EndPoint = "/auth/register";
+  static const String Register_google_EndPoint = "/auth/register-google";
 
-  static const String Register_google_EndPoint = "auth/register-google";
+  // event enpoint
+  static const String Event_EndPoint = "/events";
+  static const String Event_With_UserId_EndPoint = "/events/user";
 }

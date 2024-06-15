@@ -35,11 +35,11 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  syncfusion_flutter_calendar: ^23.1.43
+  syncfusion_flutter_calendar: ^26.1.35
   # state management get x
   get: ^4.6.6
   # formate times
-  intl: ^0.18.1
+  intl: ^0.19.0 # Adjusted to match syncfusion_flutter_calendar requirements
   # animation icon .json
   lottie: ^3.1.0
   # local storage
@@ -58,10 +58,28 @@ dependencies:
   loading_animation_widget: ^1.2.1
   # for alert messages
   quickalert: ^1.1.0
+  # icon launcher
+  flutter_launcher_icons: ^0.13.1
+  # database local storage
+  sqflite: ^2.3.1
+  # font 
+  google_fonts: ^6.1.0
+  # awesome Notification
+  awesome_notifications: ^0.9.3+1
+  # for custom change laguage calendars (like khmer , vietnamese , english ..etc.)
+  flutter_localization: ^0.2.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  # this config for icon launcher
+flutter_launcher_icons:
+  android: "ic_launcher"
+  ios: true
+  image_path: "assets/images/reminder.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  remove_alpha_ios: true
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

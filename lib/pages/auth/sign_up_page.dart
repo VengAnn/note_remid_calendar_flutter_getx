@@ -29,7 +29,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(SignUpController());
     return GestureDetector(
       onTap: () {
         // Dismiss the keyboard

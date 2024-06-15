@@ -22,10 +22,11 @@ class AuthRepoImpl extends AuthRepo {
         UserAuthRes userAuthRes = UserAuthRes.fromJson(response.data);
         return userAuthRes;
       } else {
-        throw Exception("error auth repo: ${response.data}");
+        throw Exception("Error : ${response.data}");
       }
     } catch (error) {
-      throw Exception("error auth repo: $error");
+      print("error: $error");
+      throw Exception("Error: $error");
     }
   }
 

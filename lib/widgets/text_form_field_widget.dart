@@ -4,6 +4,7 @@ import 'package:note_schedule_reminder/utils/app_color.dart';
 import 'package:note_schedule_reminder/utils/dimensions.dart';
 import 'package:note_schedule_reminder/widgets/simple_text.dart';
 
+// ignore: must_be_immutable
 class TextFormFieldWidget extends StatelessWidget {
   final TextEditingController textEditingController;
   final String hintText;
@@ -16,8 +17,9 @@ class TextFormFieldWidget extends StatelessWidget {
   final String? textVilidation;
   final bool? btnTapped;
   final bool? showInvalidEmail;
+  Function(String)? onChanged;
 
-  const TextFormFieldWidget({
+  TextFormFieldWidget({
     super.key,
     required this.textEditingController,
     required this.hintText,
@@ -30,6 +32,7 @@ class TextFormFieldWidget extends StatelessWidget {
     this.btnTapped = false,
     this.textVilidation,
     this.showInvalidEmail = false,
+    this.onChanged,
   });
 
   @override
@@ -70,6 +73,7 @@ class TextFormFieldWidget extends StatelessWidget {
                       : const SizedBox(),
                 ),
                 obscureText: obscureText,
+                onChanged: onChanged,
               ),
             ),
             // Show validation message when button is tapped

@@ -1,33 +1,22 @@
 import 'package:get/get.dart';
-import 'package:note_schedule_reminder/controllers/calendar_page_controller.dart';
+import 'package:note_schedule_reminder/controllers/auth/login_controller.dart';
+import 'package:note_schedule_reminder/controllers/events_controller/event_controller.dart';
+import 'package:note_schedule_reminder/controllers/task_controller/task_controller.dart';
+import 'package:note_schedule_reminder/pages/auth/sign_up_page.dart';
 
-Future<void> init() async {
+Future<void> init_Dependency_Injection() async {
   //api client
 
   //repositories
 
-  //controllers
-  Get.lazyPut(() => CalendarPageController());
+  // Register all controllers
+  Get.lazyPut(() => LoginController());
+  Get.lazyPut(() => SignUpPage());
+
+  Get.lazyPut(() => TaskController());
+  //Get.lazyPut(() => OnboardingController());
+  //Get.lazyPut(() => CalendarPageController());
+  
+  // event controller
+  Get.lazyPut(() => EventController());
 }
-
-
-/*
-appBar: AppBar(
-        // automaticallyImplyLeading: false,
-        title: Text('title_appbar_text'.tr),
-        actions: [
-          InkWell(
-            onTap: () {
-           
-            },
-            child: CircleAvatar(
-              radius: Dimensions.radius20,
-              child: const Icon(Icons.person),
-            ),
-          ),
-          SizedBox(
-            width: Dimensions.width5,
-          ),
-        ],
-      ),
-    */

@@ -17,10 +17,8 @@ class OnBoardingLanguagePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(SharedPreferencesService());
-    final SharedPreferencesService sharedPreferencesService =
-        Get.find<SharedPreferencesService>();
     Get.put(OnboardingController());
+
     return Scaffold(
       body: GetBuilder<OnboardingController>(
         builder: (onboardingController) {
@@ -57,8 +55,7 @@ class OnBoardingLanguagePage extends StatelessWidget {
                         LanguageOption(
                           onTap: () async {
                             onboardingController.setSelectedLanguage("vi");
-                            await sharedPreferencesService
-                                .saveSelectedLanguage("vi");
+                            SharedPreferencesService.saveSelectedLanguage("vi");
                             Get.updateLocale(
                               const Locale('vi'),
                             );
@@ -72,8 +69,7 @@ class OnBoardingLanguagePage extends StatelessWidget {
                         LanguageOption(
                           onTap: () async {
                             onboardingController.setSelectedLanguage("en");
-                            await sharedPreferencesService
-                                .saveSelectedLanguage("en");
+                            SharedPreferencesService.saveSelectedLanguage("en");
                             Get.updateLocale(const Locale('en'));
                           },
                           textLanguage: "English",

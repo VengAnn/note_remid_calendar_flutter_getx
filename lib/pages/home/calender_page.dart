@@ -1,303 +1,360 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:note_schedule_reminder/components/dialog_show.dart';
 import 'package:note_schedule_reminder/components/loading_custom.dart';
-//import 'package:note_schedule_reminder/components/dialogs.dart';
 import 'package:note_schedule_reminder/components/my_drawer.dart';
 import 'package:note_schedule_reminder/controllers/auth/login_controller.dart';
 import 'package:note_schedule_reminder/controllers/calendar_page_controller.dart';
-// import 'package:note_schedule_reminder/services/auth_service.dart';
+import 'package:note_schedule_reminder/controllers/events_controller/event_controller.dart';
+import 'package:note_schedule_reminder/models/task_res/event_task.dart';
+import 'package:note_schedule_reminder/pages/home/detail_task_page.dart';
 import 'package:note_schedule_reminder/utils/dimensions.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class CalendarPage extends StatefulWidget {
-  const CalendarPage({Key? key}) : super(key: key);
-
   @override
   State<CalendarPage> createState() => _CalendarPageState();
 }
 
 class _CalendarPageState extends State<CalendarPage> {
-  final CalendarPageController calendarPageController =
-      Get.put(CalendarPageController());
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
+    Get.put(CalendarPageController());
     Get.put(LoginController());
-    //print("calendarPage ${AuthService.auth.currentUser}");
+    Get.put(EventController());
+
     return Scaffold(
       key: _scaffoldKey,
       drawer: const MyDrawer(),
-      body: GetBuilder<CalendarPageController>(
-        builder: (calendarController) {
-          return GetBuilder<LoginController>(builder: (loginController) {
-            print("calendar ${loginController.isLoading}");
-            return Center(
-              child: SingleChildScrollView(
-                physics: const NeverScrollableScrollPhysics(),
-                child: Stack(
-                  children: [
-                    // Custom drawer button without appbar this like app bar
-                    Positioned(
-                      top: 0,
-                      child: SafeArea(
-                        child: Container(
-                          height: Dimensions.height20 * 2.7,
-                          width: Dimensions.screenWidth,
-                          color: Colors.white,
-                          child: Row(
-                            children: [
-                              IconButton(
-                                icon: const Icon(Icons.menu),
-                                onPressed: () {
-                                  _scaffoldKey.currentState?.openDrawer();
-                                },
-                              ),
-                              Text('title_appbar_text'.tr),
-                              const Spacer(),
-                              IconButton(
-                                icon: const Icon(Icons.calendar_today_outlined),
-                                onPressed: () {},
-                              ),
-                              // btn show settings details
-                              GestureDetector(
-                                onTap: () {
-                                  // dialog show settings
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return GetBuilder<LoginController>(
-                                          builder: (loginController) {
-                                        return Dialog(
-                                          //insetPadding: EdgeInsets.zero, // Remove padding
-                                          child: Container(
-                                            width: double.infinity,
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      Dimensions.width10),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.black
-                                                      .withOpacity(0.1),
-                                                  spreadRadius: 1,
-                                                  blurRadius: 5,
-                                                  offset: const Offset(0,
-                                                      3), // changes position of shadow
-                                                ),
-                                              ],
-                                            ),
-                                            child: Stack(
-                                              children: [
-                                                Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    const Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                          "settings account",
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 20,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    InkWell(
-                                                      onTap: () {},
-                                                      child: const ListTile(
-                                                        leading: CircleAvatar(
-                                                          child: Icon(
-                                                              Icons.person),
-                                                        ),
-                                                        title:
-                                                            Text("name user"),
-                                                        subtitle: Text(
-                                                            "venganncoco@gmail.com"),
-                                                      ),
-                                                    ),
-                                                    // btn logout
-                                                    InkWell(
-                                                      onTap: () {
-                                                        Get.back();
-                                                        loginController
-                                                            .logout();
-                                                      },
-                                                      child: const ListTile(
-                                                        leading:
-                                                            Icon(Icons.logout),
-                                                        title: Text("logout"),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                // close button
-                                                Positioned(
-                                                  right: Dimensions.width5,
-                                                  child: InkWell(
-                                                    onTap: () {
-                                                      Get.back();
-                                                    },
-                                                    child:
-                                                        const Icon(Icons.close),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        );
-                                      });
-                                    },
-                                  );
-                                },
-                                child: Padding(
-                                  padding:
-                                      EdgeInsets.only(right: Dimensions.width5),
-                                  child: CircleAvatar(
-                                    radius: Dimensions.radius20,
-                                    child: const Icon(Icons.person),
+      body: GetBuilder<LoginController>(
+        builder: (loginController) {
+          return GetBuilder<EventController>(builder: (eventController) {
+            return GetBuilder<CalendarPageController>(
+              builder: (calendarPageController) {
+                return SafeArea(
+                  child: Stack(
+                    children: [
+                      Column(
+                        children: [
+                          Container(
+                            height: Dimensions.height20 * 2.7,
+                            width: Dimensions.screenWidth,
+                            color: Colors.white,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    _scaffoldKey.currentState?.openDrawer();
+                                  },
+                                  icon: const Icon(Icons.menu),
+                                ),
+                                Text('title_appbar_text'.tr),
+                                const Spacer(),
+                                GestureDetector(
+                                  onTap: () {
+                                    calendarPageController.jumpToToday();
+                                  },
+                                  child: Icon(
+                                    Icons.calendar_today_outlined,
+                                    size: Dimensions.iconSize17 * 1.2,
                                   ),
                                 ),
-                              ),
-                              //
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Stack(
-                      children: [
-                        Padding(
-                          padding:
-                              EdgeInsets.only(top: Dimensions.height20 * 3.5),
-                          child: SizedBox(
-                            height: Dimensions.screenHeight -
-                                (Dimensions.height20 * 3),
-                            child: SfCalendar(
-                              onSelectionChanged: (CalendarSelectionDetails
-                                  calendarSelectionDetails) {},
-                              view: CalendarView.week,
-                              dataSource:
-                                  _DataSource(calendarController.appointments),
-                              selectionDecoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Colors
-                                        .transparent), // Remove cell border selection
-                              ),
-                              onTap: (CalendarTapDetails details) {
-                                calendarController
-                                    .handleDateSelection(details.date!);
-
-                                showModalBottomSheet(
-                                  context: context,
-                                  isScrollControlled: true,
-                                  builder: (context) {
-                                    return DraggableScrollableSheet(
-                                      initialChildSize: 0.2, // Initial height
-                                      minChildSize: 0.2,
-                                      maxChildSize: 0.9,
-                                      expand: false,
-                                      builder: (context, scrollController) {
-                                        return SingleChildScrollView(
-                                          controller: scrollController,
-                                          child: Container(
-                                            color: Colors.transparent,
-                                            child: const DialogShow(),
-                                          ),
-                                        );
-                                      },
-                                    );
+                                // profile settings
+                                GestureDetector(
+                                  onTap: () {
+                                    _showSettingsDialog(
+                                        context, loginController);
                                   },
-                                );
-                              },
-                              specialRegions: [
-                                TimeRegion(
-                                  startTime: calendarController.startTime,
-                                  endTime: calendarController.endTime,
-                                  enablePointerInteraction: false,
-                                  textStyle:
-                                      const TextStyle(color: Colors.white),
-                                ),
-                              ],
-                              timeRegionBuilder: (BuildContext context,
-                                  TimeRegionDetails details) {
-                                return Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.amber,
-                                    border: Border.all(
-                                      color: Colors.black,
-                                      width: 2,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        right: Dimensions.width5),
+                                    child: Lottie.asset(
+                                      'assets/animations/profile_animation.json',
+                                      width: Dimensions.width20 * 3,
+                                      height: Dimensions.width20 * 3,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
-                                  child: const Column(
-                                    children: [
-                                      // Additional UI elements can go here
-                                    ],
-                                  ),
-                                );
-                              },
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    //
-                    loginController.isLoading
-                        ? SizedBox(
-                            height: Dimensions.screenHeight,
-                            width: Dimensions.screenWidth,
-                            child: const LoadingCustom())
-                        : const SizedBox(), // Show loading animation if isLoading is true
-                  ],
-                ),
-              ),
+                          // show calendar full screen if view week
+                          calendarPageController.calendarView ==
+                                  CalendarView.week
+                              ? Expanded(
+                                  child: showCalendar(),
+                                )
+                              : calendarPageController.calendarView ==
+                                      CalendarView.day
+                                  ? Expanded(
+                                      child: showCalendar(),
+                                    )
+                                  :
+                                  // calendar view month show a bit heigth
+                                  Expanded(
+                                      child: SizedBox(
+                                        child: showCalendar(),
+                                      ),
+                                    ),
+                        ],
+                      ),
+                      //
+                      loginController.isLoading
+                          ? const LoadingCustom()
+                          : eventController.isLoading
+                              ? const LoadingCustom()
+                              : SizedBox(),
+                    ],
+                  ),
+                );
+              },
             );
           });
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // show the bottomSheet
+      floatingActionButton: GetBuilder<LoginController>(
+        builder: (loginController) {
+          return GetBuilder<EventController>(
+            builder: (eventController) {
+              return loginController.isLoading
+                  ? const SizedBox()
+                  : eventController.isLoading
+                      ? const SizedBox()
+                      : FloatingActionButton(
+                          onPressed: () {
+                            _showBottomSheet(context);
+                          },
+                          child: const Icon(Icons.add),
+                        );
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+
+class showCalendar extends StatelessWidget {
+  const showCalendar({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    CalendarPageController calendarController =
+        Get.find<CalendarPageController>();
+
+    return SfCalendar(
+      controller: calendarController.calendarController,
+      onTap: (CalendarTapDetails details) {
+        if (details.appointments == null || details.appointments!.isEmpty) {
           showModalBottomSheet(
             context: context,
             isScrollControlled: true,
             builder: (context) {
-              return SingleChildScrollView(
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.9,
-                  color: Colors.transparent,
-                  child: const DialogShow(),
-                ),
+              return DraggableScrollableSheet(
+                initialChildSize: 0.2, // Initial height
+                minChildSize: 0.2,
+                maxChildSize: 0.9,
+                expand: false,
+                builder: (context, scrollController) {
+                  return SingleChildScrollView(
+                    controller: scrollController,
+                    child: Container(
+                      height: Dimensions.screenHeight,
+                      color: Colors.transparent,
+                      child: DialogShow(),
+                    ),
+                  );
+                },
               );
             },
           );
-        },
-        child: const Icon(Icons.add),
+        } else if (details.appointments != null) {
+          // the first tap on calendar view month return don't see anything is have data
+
+          Appointment tappedAppointment = details.appointments!.first;
+          List<Object>? objList = tappedAppointment.resourceIds;
+          // passing to list of EventTask
+          List<EventTask> eventTaskList = [];
+          for (var item in objList!) {
+            if (item is EventTask) {
+              eventTaskList.add(item);
+            }
+          }
+          // Find the EventTask with matching id save in appointment
+          EventTask? tappedEventTask;
+          for (var e in eventTaskList) {
+            if (e.eventId == tappedAppointment.id) {
+              tappedEventTask = e;
+              break;
+            }
+          }
+          if (tappedEventTask != null) {
+            log("Tapped tappedEventTask: ${tappedEventTask.title} - ${tappedEventTask.date}");
+            // go to detail page
+            Get.to(() => DetailTaskPage(
+                  eventTask: tappedEventTask,
+                ));
+          }
+        }
+      },
+      view: calendarController.calendarView,
+      onSelectionChanged: (CalendarSelectionDetails details) {},
+      dataSource: _getCalendarDataSource(),
+      headerStyle: CalendarHeaderStyle(
+        textAlign: TextAlign.center,
+        backgroundColor: Colors.grey[300],
+        textStyle: TextStyle(
+          fontSize: Dimensions.fontSize20,
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+        ),
+      ),
+      viewHeaderStyle: ViewHeaderStyle(
+        dayTextStyle: TextStyle(
+          fontSize: Dimensions.fontSize15,
+          fontWeight: FontWeight.bold,
+          color: Colors.blue,
+        ),
+        dateTextStyle: TextStyle(
+          fontSize: Dimensions.fontSize15,
+          color: Colors.red,
+        ),
+      ),
+      monthViewSettings: MonthViewSettings(
+        appointmentDisplayMode: MonthAppointmentDisplayMode.indicator,
+        showAgenda: true,
+        agendaViewHeight: Dimensions.height20 * 15,
+        agendaStyle: AgendaStyle(
+          backgroundColor: Colors.blue[200],
+          dayTextStyle: TextStyle(
+            fontSize: Dimensions.fontSize15,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+          dateTextStyle: TextStyle(
+            fontSize: Dimensions.fontSize15,
+            fontWeight: FontWeight.w600,
+            color: Colors.black87,
+          ),
+        ),
+      ),
+      todayHighlightColor: Colors.orange,
+      selectionDecoration: BoxDecoration(
+        color: Colors.transparent,
+        border: Border.all(color: Colors.red, width: 2),
+        borderRadius: BorderRadius.circular(4),
       ),
     );
   }
-
-  // ignore: unused_element
-  _DataSource _getCalendarDataSource() {
-    List<Appointment> appointments = calendarPageController.appointments;
-    return _DataSource(appointments);
-  }
 }
 
+//
+_DataSource _getCalendarDataSource() {
+  List<Appointment> appointments =
+      Get.find<CalendarPageController>().appointments;
+
+  return _DataSource(appointments);
+}
+
+//
 class _DataSource extends CalendarDataSource {
   _DataSource(List<Appointment> source) {
     appointments = source;
   }
 }
 
-// dailog settings
-Widget ShowDialogSettings() {
-  return Container();
+//
+void _showSettingsDialog(
+    BuildContext context, LoginController loginController) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(Dimensions.width10),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                spreadRadius: 1,
+                blurRadius: 5,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Stack(
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(height: 20),
+                  const Text(
+                    "settings account",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: const ListTile(
+                      leading: CircleAvatar(child: Icon(Icons.person)),
+                      title: Text("name user"),
+                      subtitle: Text("venganncoco@gmail.com"),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Get.back();
+                      loginController.logout();
+                    },
+                    child: const ListTile(
+                      leading: Icon(Icons.logout),
+                      title: Text("logout"),
+                    ),
+                  ),
+                ],
+              ),
+              Positioned(
+                right: Dimensions.width5,
+                child: InkWell(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: const Icon(Icons.close),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
+//
+void _showBottomSheet(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    builder: (context) {
+      return Builder(builder: (context) {
+        return SingleChildScrollView(
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.9,
+            color: Colors.transparent,
+            child: DialogShow(),
+          ),
+        );
+      });
+    },
+  );
 }

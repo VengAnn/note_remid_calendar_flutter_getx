@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -8,12 +7,12 @@ class ApiClient {
   // final Dio _dio = Dio();
   final Dio _dio = Dio(BaseOptions(
     baseUrl: AppConstant.Base_Url,
-    connectTimeout: const Duration(seconds: 5), // 5 seconds
-    receiveTimeout: const Duration(seconds: 5), // 5 seconds
+    connectTimeout: const Duration(seconds: 25), // 25 seconds
+    receiveTimeout: const Duration(seconds: 25), // 25 seconds
   ));
   final String _baseUrl = AppConstant.Base_Url;
 
-  Future<Response> fetchData(String endpoint) async {
+  Future<Response> fetchData({required String endpoint}) async {
     try {
       final response = await _dio.get(_baseUrl + endpoint);
       return response;
