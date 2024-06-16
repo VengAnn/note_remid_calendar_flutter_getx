@@ -58,4 +58,19 @@ class SharedPreferencesService {
   static void clearUserId() {
     _prefs.remove("userId");
   }
+
+  // save profile
+  static void saveProfile(String? profile) {
+    _prefs.setString("profile", profile!);
+  }
+
+  // get profile
+  static String? getProfile() {
+    return _prefs.getString("profile");
+  }
+
+  // clear profile
+  static void clearProfile() {
+    _prefs.remove("profile");
+  }
 }

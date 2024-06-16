@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:note_schedule_reminder/data/repository/auth/auth_repo.dart';
@@ -12,6 +13,7 @@ class AuthRepoImpl extends AuthRepo {
   //AuthRepoImpl(this._apiClient);
   @override
   Future<UserAuthRes?> login(String email, String password) async {
+    log("email: " + email + " password: " + password);
     try {
       final response = await _apiClient.postData(
         endpoint: AppConstant.Login_EndPoint,
@@ -19,6 +21,8 @@ class AuthRepoImpl extends AuthRepo {
       );
 
       if (response.statusCode == 200) {
+        log("response: ${response.data}");
+        
         UserAuthRes userAuthRes = UserAuthRes.fromJson(response.data);
         return userAuthRes;
       } else {

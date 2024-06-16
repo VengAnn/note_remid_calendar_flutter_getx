@@ -25,20 +25,34 @@ class ApiClient {
     required String endpoint,
     dynamic data,
     String? token,
+    bool isPut = false,
   }) async {
     try {
-      final response = await _dio.post(
-        _baseUrl + endpoint,
-        data: data,
-        options: Options(
-          headers: {
-            "Accept": "application/json",
-            "Authorization": token != null ? "Bearer $token" : null,
-          },
-          followRedirects: false,
-          validateStatus: (status) => status! <= 500,
-        ),
-      );
+      final response = await isPut == true
+          ? _dio.put(
+              _baseUrl + endpoint,
+              data: data,
+              options: Options(
+                headers: {
+                  "Accept": "application/json",
+                  "Authorization": token != null ? "Bearer $token" : null,
+                },
+                followRedirects: false,
+                validateStatus: (status) => status! <= 500,
+              ),
+            )
+          : _dio.post(
+              _baseUrl + endpoint,
+              data: data,
+              options: Options(
+                headers: {
+                  "Accept": "application/json",
+                  "Authorization": token != null ? "Bearer $token" : null,
+                },
+                followRedirects: false,
+                validateStatus: (status) => status! <= 500,
+              ),
+            );
       return response;
     } catch (error) {
       throw Exception("error api client $error");

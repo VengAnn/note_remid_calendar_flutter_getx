@@ -11,6 +11,8 @@ import 'package:note_schedule_reminder/controllers/calendar_page_controller.dart
 import 'package:note_schedule_reminder/controllers/events_controller/event_controller.dart';
 import 'package:note_schedule_reminder/models/task_res/event_task.dart';
 import 'package:note_schedule_reminder/pages/home/detail_task_page.dart';
+import 'package:note_schedule_reminder/services/share_preferences.dart';
+import 'package:note_schedule_reminder/utils/app_constant.dart';
 import 'package:note_schedule_reminder/utils/dimensions.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -54,7 +56,14 @@ class _CalendarPageState extends State<CalendarPage> {
                                   },
                                   icon: const Icon(Icons.menu),
                                 ),
-                                Text('title_appbar_text'.tr),
+                                Text(
+                                  'title_appbar_text'.tr,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: Dimensions.fontSize20,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
                                 const Spacer(),
                                 GestureDetector(
                                   onTap: () {
@@ -74,12 +83,20 @@ class _CalendarPageState extends State<CalendarPage> {
                                   child: Padding(
                                     padding: EdgeInsets.only(
                                         right: Dimensions.width5),
-                                    child: Lottie.asset(
-                                      'assets/animations/profile_animation.json',
-                                      width: Dimensions.width20 * 3,
-                                      height: Dimensions.width20 * 3,
-                                      fit: BoxFit.cover,
-                                    ),
+                                    child:
+                                        SharedPreferencesService.getProfile() !=
+                                                null
+                                            ? CircleAvatar(
+                                                radius: Dimensions.radius20,
+                                                backgroundImage: NetworkImage(
+                                                    "${AppConstant.PathImg_Url}${SharedPreferencesService.getProfile()}"),
+                                              )
+                                            : Lottie.asset(
+                                                'assets/animations/profile_animation.json',
+                                                width: Dimensions.width20 * 3,
+                                                height: Dimensions.width20 * 3,
+                                                fit: BoxFit.cover,
+                                              ),
                                   ),
                                 ),
                               ],
@@ -305,15 +322,22 @@ void _showSettingsDialog(
                   ),
                   InkWell(
                     onTap: () {},
-                    child: const ListTile(
-                      leading: CircleAvatar(child: Icon(Icons.person)),
-                      title: Text("name user"),
+                    child: ListTile(
+                      leading: SharedPreferencesService.getProfile() != null
+                          ? CircleAvatar(
+                              radius: Dimensions.radius20,
+                              backgroundImage: NetworkImage(
+                                  "${AppConstant.PathImg_Url}${SharedPreferencesService.getProfile()}"),
+                            )
+                          : CircleAvatar(child: Icon(Icons.person)),
+                      title: Text("username"),
                       subtitle: Text("venganncoco@gmail.com"),
                     ),
                   ),
                   InkWell(
                     onTap: () {
                       Get.back();
+
                       loginController.logout();
                     },
                     child: const ListTile(

@@ -55,8 +55,37 @@ class EventRepoImpl extends EventRepo {
   }
 
   @override
-  Future<EventTask?> updateEvent({required EventTask eventTask}) {
-    throw UnimplementedError();
+  Future<EventTask?> updateEvent({
+    required EventTask eventTask,
+    required int user_id,
+    required String token,
+  }) async {
+    try {
+      // update the event task
+      final res = await _apiClient.postData(
+        isPut: true,
+        endpoint: AppConstant.Event_EndPoint + "/${eventTask.eventId}",
+        token: token,
+        data: {
+          "user_id": user_id,
+          "title": eventTask.title,
+          "note": eventTask.note,
+          "date": eventTask.date,
+          "start_time": eventTask.startTime,
+          "end_time": eventTask.endTime,
+          "Remind": eventTask.remind,
+          "Repeat": eventTask.repeat,
+          "color": eventTask.color,
+          "status": eventTask.status,
+        },
+      );
+      if (res.statusCode == 200 || res.statusCode == 201) {
+        return eventTask;
+      }
+      throw Exception("Error:  ${res.data} code:${res.statusCode}");
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
   @override

@@ -68,6 +68,11 @@ dependencies:
   awesome_notifications: ^0.9.3+1
   # for custom change laguage calendars (like khmer , vietnamese , english ..etc.)
   flutter_localization: ^0.2.0
+  # cached_network_image for When an image is loaded for the 
+  # first time, it is downloaded from the network and stored in a local cache. 
+  # Subsequent requests for the same image will load the image from the cache,
+  # reducing network usage and improving performance.
+  cached_network_image: ^3.3.1
 
 dev_dependencies:
   flutter_test:

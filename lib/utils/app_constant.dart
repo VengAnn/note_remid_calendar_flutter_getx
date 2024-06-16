@@ -3,6 +3,8 @@
 class AppConstant {
   static const String Base_Url = "http://192.168.3.15:8000/api/v1";
 
+  static const String PathImg_Url = "http://192.168.3.15:8000/users/";
+
   //auth endpoint
   static const String Login_EndPoint = "/auth/login";
   static const String Logout_EndPoint = "/auth/logout";

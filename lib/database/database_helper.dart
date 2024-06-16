@@ -73,6 +73,12 @@ class DBHelper {
     await _db!.delete(_tableName, where: 'id=?', whereArgs: [task!.id]);
   }
 
+  // update tasks
+  static updateTask(Task task) async {
+    await _db!
+        .update(_tableName, task.toJson(), where: 'id=?', whereArgs: [task.id]);
+  }
+
   // update table name tasks work with controller
   static update(int id) async {
     // Update field isCompleted from 0 to 1 (completed) for a specific task ID

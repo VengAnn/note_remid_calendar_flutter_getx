@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:note_schedule_reminder/components/dialog_show.dart';
 import 'package:note_schedule_reminder/models/task_res/event_task.dart';
+import 'package:note_schedule_reminder/models/task_sqlite/task_model.dart';
 import 'package:note_schedule_reminder/route/route_helper.dart';
 import 'package:note_schedule_reminder/utils/app_color.dart';
 import 'package:note_schedule_reminder/utils/dimensions.dart';
@@ -33,7 +34,7 @@ class DetailTaskPage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              _showBottomSheet(context);
+              _showBottomSheet(context, eventTask!);
             },
             icon: Icon(Icons.edit),
           ),
@@ -178,7 +179,20 @@ class DetailTaskPage extends StatelessWidget {
   }
 }
 
-void _showBottomSheet(BuildContext context) {
+void _showBottomSheet(BuildContext context, EventTask eTask) {
+  Task task = Task(
+    id: eTask.eventId,
+    isCompleted: eTask.status,
+    title: eTask.title,
+    date: eTask.date,
+    remind: int.parse(eTask.remind!),
+    note: eTask.note,
+    startTime: eTask.startTime,
+    endTime: eTask.endTime,
+    color: eTask.color,
+    repeat: eTask.repeat,
+  );
+
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -190,6 +204,7 @@ void _showBottomSheet(BuildContext context) {
             color: Colors.transparent,
             child: DialogShow(
               isForUpdate: true,
+              task: task,
             ),
           ),
         );

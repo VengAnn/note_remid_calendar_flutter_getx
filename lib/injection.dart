@@ -16,7 +16,7 @@ Future<void> init_Dependency_Injection() async {
   Get.lazyPut(() => TaskController());
   //Get.lazyPut(() => OnboardingController());
   //Get.lazyPut(() => CalendarPageController());
-  
+
   // event controller
   Get.lazyPut(() => EventController());
 }

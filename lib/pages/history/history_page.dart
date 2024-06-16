@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:note_schedule_reminder/controllers/events_controller/event_controller.dart';
 import 'package:note_schedule_reminder/controllers/history/history_controller.dart';
 import 'package:note_schedule_reminder/models/task_res/event_task.dart';
 import 'package:note_schedule_reminder/utils/dimensions.dart';
@@ -70,62 +71,68 @@ class _HistoryPageState extends State<HistoryPage> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        body: GetBuilder<HistoryController>(
-          builder: (historyController) {
-            return historyController.isLoading
-                ? Center(child: CircularProgressIndicator())
-                : Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SafeArea(
-                      child: Column(
-                        children: [
-                          Container(
-                            height: Dimensions.height20 * 2,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.grey[200],
-                            ),
-                            child: TabBar(
-                              indicator: BoxDecoration(
-                                color: Colors.amber,
+        body: GetBuilder<EventController>(builder: (eventController) {
+          return GetBuilder<HistoryController>(
+            builder: (historyController) {
+              if (eventController.isLoading) {
+                return Center(child: CircularProgressIndicator());
+              }
+              // otherwise show this is not loading false
+              return historyController.isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SafeArea(
+                        child: Column(
+                          children: [
+                            Container(
+                              height: Dimensions.height20 * 2,
+                              decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
+                                color: Colors.grey[200],
                               ),
-                              dividerColor: Colors.transparent,
-                              indicatorSize: TabBarIndicatorSize.tab,
-                              labelColor: Colors.black,
-                              unselectedLabelColor: Colors.blue,
-                              tabs: [
-                                Tab(
-                                  child: SimpleText(
-                                    text: "text_task_complete".tr,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                              child: TabBar(
+                                indicator: BoxDecoration(
+                                  color: Colors.amber,
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
-                                Tab(
-                                  child: SimpleText(
-                                    text: "text_task_not_complete".tr,
-                                    fontWeight: FontWeight.w500,
+                                dividerColor: Colors.transparent,
+                                indicatorSize: TabBarIndicatorSize.tab,
+                                labelColor: Colors.black,
+                                unselectedLabelColor: Colors.blue,
+                                tabs: [
+                                  Tab(
+                                    child: SimpleText(
+                                      text: "text_task_complete".tr,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  Tab(
+                                    child: SimpleText(
+                                      text: "text_task_not_complete".tr,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            child: TabBarView(
-                              children: [
-                                TaskCompleteContainer(
-                                    eventTaskList: eventListCompleted),
-                                TaskNotComplete(
-                                    eventTaskList: eventListNotCompleted),
-                              ],
-                            ),
-                          )
-                        ],
+                            Expanded(
+                              child: TabBarView(
+                                children: [
+                                  TaskCompleteContainer(
+                                      eventTaskList: eventListCompleted),
+                                  TaskNotComplete(
+                                      eventTaskList: eventListNotCompleted),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-          },
-        ),
+                    );
+            },
+          );
+        }),
       ),
     );
   }

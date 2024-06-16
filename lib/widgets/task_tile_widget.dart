@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:note_schedule_reminder/components/dialog_show.dart';
 import 'package:note_schedule_reminder/models/task_res/event_task.dart';
+import 'package:note_schedule_reminder/models/task_sqlite/task_model.dart';
 import 'package:note_schedule_reminder/utils/app_color.dart';
 import 'package:note_schedule_reminder/utils/dimensions.dart';
 import 'package:note_schedule_reminder/widgets/simple_text.dart';
@@ -33,9 +35,10 @@ class TaskTileWidget extends StatelessWidget {
               SizedBox(width: Dimensions.width5),
               SimpleText(text: task.startTime!),
               Spacer(),
+              // icon more for editing
               GestureDetector(
                 onTap: () {
-                  print("taped");
+                  _showBottomSheet(context, task);
                 },
                 child: Icon(Icons.more_vert_outlined),
               ),
@@ -155,4 +158,41 @@ class TaskTileWidget extends StatelessWidget {
         return AppColor.bluishClr;
     }
   }
+}
+
+//
+void _showBottomSheet(BuildContext context, EventTask eTask) {
+  Task task = Task(
+    id: eTask.eventId,
+    isCompleted: eTask.status,
+    title: eTask.title,
+    date: eTask.date,
+    remind: int.parse(eTask.remind!),
+    note: eTask.note,
+    startTime: eTask.startTime,
+    endTime: eTask.endTime,
+    color: eTask.color,
+    repeat: eTask.repeat,
+  );
+
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    builder: (context) {
+      return Builder(
+        builder: (context) {
+          return SingleChildScrollView(
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.9,
+              color: Colors.transparent,
+              child: DialogShow(
+                isForUpdate: true,
+                task: task,
+              ),
+            ),
+          );
+        },
+      );
+    },
+  );
 }

@@ -33,35 +33,40 @@ class _DialogShowState extends State<DialogShow> {
   // ignore: unused_field
   final TaskController _taskController = Get.put(TaskController());
 
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _noteController = TextEditingController();
+  late TextEditingController _titleController;
+  late TextEditingController _noteController;
 
   int selectedIndexColor = 0;
-
-  DateTime _selectedDate = DateTime.now();
-  // initialize  start time and end time
-  String _endTime = DateFormat("hh:mm a")
-      .format(DateTime.now().add(Duration(hours: 1)))
-      .toString();
-  String _startTime = DateFormat("hh:mm a").format(DateTime.now()).toString();
-
+  late DateTime _selectedDate;
+  late String _startTime;
+  late String _endTime;
   int _selectedRemider = 0;
-  List<int> remindList = [
-    0,
-    5,
-    10,
-    15,
-  ];
-
   String _selectedRepeat = "None";
-  List<String> repeatList = [
-    "None",
-    "Daily",
-    // "Weekly",
-    // "Monthly",
-  ];
+
+  List<int> remindList = [0, 5, 10, 15];
+  // respeat can have more then this like None, Daily, weekly, monthly
+  List<String> repeatList = ["None", "Daily"];
 
   FocusNode _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _titleController = TextEditingController(text: widget.task?.title ?? '');
+    _noteController = TextEditingController(text: widget.task?.note ?? '');
+    _selectedDate = widget.task != null
+        ? DateTime.parse(widget.task!.date!)
+        : DateTime.now();
+    _startTime =
+        widget.task?.startTime ?? DateFormat("hh:mm a").format(DateTime.now());
+    _endTime = widget.task?.endTime ??
+        DateFormat("hh:mm a").format(DateTime.now().add(Duration(hours: 1)));
+    _selectedRemider = widget.task?.remind ?? 0;
+    _selectedRepeat = widget.task?.repeat ?? "None";
+    selectedIndexColor = widget.task?.color ?? 0;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -229,14 +234,28 @@ class _DialogShowState extends State<DialogShow> {
     if (_titleController.text.isNotEmpty && _noteController.text.isNotEmpty) {
       if (DateFormat("hh:mm a").parse(_startTime) !=
           DateFormat("hh:mm a").parse(_endTime)) {
-        // add to database sqlite local storage
-        _addTaskToDB();
-        _addToServer();
+        // if isForUpdate is true update the data in local storage and server
+        if (widget.isForUpdate) {
+          if (widget.task != null) {
+            _updateTaskToDB();
+            _updateToServer();
+          } else {
+            Dialogs.showSnackBar("task on update is null or empty");
+          }
 
-        // when add everything successfully let's get from local storage task to alert notification
-        // cuz in method getTaskFromTaskController  have method call alert Notification we need to call it to see notification
-        // when add everything ok
-        Get.find<CalendarPageController>().getTaskFromTaskController();
+          // when update already get again like refresh to see what changed
+          Get.find<CalendarPageController>().getTaskFromTaskController();
+        } else {
+          // otherwise isForUpdate is false add the data in local storage and server
+          // add to database sqlite local storage
+          _addTaskToDB();
+          _addToServer();
+
+          // when add everything successfully let's get from local storage task to alert notification
+          // cuz in method getTaskFromTaskController  have method call alert Notification we need to call it to see notification
+          // when add everything ok
+          Get.find<CalendarPageController>().getTaskFromTaskController();
+        }
 
         Get.back();
       } else {
@@ -245,6 +264,51 @@ class _DialogShowState extends State<DialogShow> {
     } else if (_titleController.text.isEmpty || _noteController.text.isEmpty) {
       Dialogs.showSnackBar("All fields are required!");
     }
+  }
+
+  _updateTaskToDB() {
+    // Format the selected date to yyyy-MM-dd before saving
+    String formattedDate = DateFormat('yyyy-MM-dd').format(_selectedDate);
+    Task task = Task(
+      id: widget.task!.id,
+      note: _noteController.text,
+      title: _titleController.text,
+      date: formattedDate,
+      startTime: _startTime,
+      endTime: _endTime,
+      remind: _selectedRemider,
+      repeat: _selectedRepeat,
+      color: selectedIndexColor,
+      isCompleted: widget.task!.isCompleted,
+    );
+    // update to database
+    _taskController.updateTask(task);
+    // when update to database ok get again to see what changed
+    Get.find<CalendarPageController>().getTaskFromTaskController();
+  }
+
+  _updateToServer() {
+    // print("update dialog : ${widget.task!.id}");
+
+    // Format the selected date to yyyy-MM-dd before saving
+    String formattedDate = DateFormat('yyyy-MM-dd').format(_selectedDate);
+    // update to server
+    Get.find<EventController>().updateEvent(
+      eventTask: EventTask(
+        eventId: widget.task!.id,
+        note: _noteController.text,
+        title: _titleController.text,
+        date: formattedDate,
+        startTime: _startTime,
+        endTime: _endTime,
+        remind: _selectedRemider.toString(), // convert to string
+        repeat: _selectedRepeat,
+        color: selectedIndexColor,
+        status: 1,
+      ),
+    );
+    // when update to server ok get again to see what changed
+    Get.find<CalendarPageController>().getEventTaskFromServer();
   }
 
   _addToServer() {

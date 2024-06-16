@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 import 'package:note_schedule_reminder/components/dialogs.dart';
 import 'package:note_schedule_reminder/data/repository_impl/auth/auth_google_impl.dart';
@@ -14,25 +16,35 @@ class LoginController extends GetxController {
   bool isLoading = false;
 
   @override
-  // ignore: unnecessary_overrides
   void onInit() {
     super.onInit();
   }
 
+  @override
+  void onClose() {
+    super.onClose();
+  }
+
   void login(String email, String password) async {
+    log("email: " + email + " password: " + password);
     isLoading = true;
     update();
 
     try {
-      final UserAuthRes? user = await authRepoImpl!.login(email, password);
+      final UserAuthRes? userAuthRes =
+          await authRepoImpl!.login(email, password);
 
-      if (user != null) {
+      if (userAuthRes != null && userAuthRes.user != null) {
         // If successfully logged in
         // First we need to save token
-        SharedPreferencesService.saveToken(user.token!);
+        SharedPreferencesService.saveToken(userAuthRes.token!);
+
+        if (userAuthRes.user!.profileUrl != null) {
+          SharedPreferencesService.saveProfile(userAuthRes.user!.profileUrl!);
+        }
 
         // save user id
-        SharedPreferencesService.saveUserId(user.user!.userId!);
+        SharedPreferencesService.saveUserId(userAuthRes.user!.userId!);
 
         Get.offAllNamed(RouteHelper.getCalenderPage());
         // delay a bit to something smooth
@@ -54,6 +66,7 @@ class LoginController extends GetxController {
       isLoading = false;
       update();
 
+      log("e : $e");
       QuickAlert.show(
         context: Get.context!,
         type: QuickAlertType.error,
@@ -70,10 +83,12 @@ class LoginController extends GetxController {
       bool success = await authRepoImpl!.logout();
       if (success) {
         SharedPreferencesService.clearToken();
-        await Get.offAllNamed(RouteHelper.getLoginPage());
         // when logout is successfully clear something from local storage
         SharedPreferencesService.clearUserId();
         SharedPreferencesService.clearToken();
+        SharedPreferencesService.clearProfile();
+
+        await Get.offAllNamed(RouteHelper.getLoginPage());
 
         isLoading = false;
         update();
