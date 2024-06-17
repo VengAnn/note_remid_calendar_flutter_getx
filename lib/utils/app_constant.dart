@@ -1,9 +1,9 @@
 // ignore_for_file: constant_identifier_names
 
 class AppConstant {
-  static const String Base_Url = "http://192.168.3.15:8000/api/v1";
+  static const String Base_Url = "http://172.20.10.6:8000/api/v1";
 
-  static const String PathImg_Url = "http://192.168.3.15:8000/users/";
+  static const String PathImg_Url = "http://172.20.10.6:8000/users/";
 
   //auth endpoint
   static const String Login_EndPoint = "/auth/login";

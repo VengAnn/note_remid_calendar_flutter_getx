@@ -244,6 +244,7 @@ class _DialogShowState extends State<DialogShow> {
           }
 
           // when update already get again like refresh to see what changed
+          Get.find<CalendarPageController>().getEventTaskFromServer();
           Get.find<CalendarPageController>().getTaskFromTaskController();
         } else {
           // otherwise isForUpdate is false add the data in local storage and server
@@ -254,6 +255,7 @@ class _DialogShowState extends State<DialogShow> {
           // when add everything successfully let's get from local storage task to alert notification
           // cuz in method getTaskFromTaskController  have method call alert Notification we need to call it to see notification
           // when add everything ok
+          Get.find<CalendarPageController>().getEventTaskFromServer();
           Get.find<CalendarPageController>().getTaskFromTaskController();
         }
 

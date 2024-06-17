@@ -7,8 +7,8 @@ class ApiClient {
   // final Dio _dio = Dio();
   final Dio _dio = Dio(BaseOptions(
     baseUrl: AppConstant.Base_Url,
-    connectTimeout: const Duration(seconds: 25), // 25 seconds
-    receiveTimeout: const Duration(seconds: 25), // 25 seconds
+    connectTimeout: const Duration(seconds: 15), // 15 seconds
+    receiveTimeout: const Duration(seconds: 40), // 35 seconds
   ));
   final String _baseUrl = AppConstant.Base_Url;
 
