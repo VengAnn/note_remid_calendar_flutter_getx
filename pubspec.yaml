@@ -39,7 +39,7 @@ dependencies:
   # state management get x
   get: ^4.6.6
   # formate times
-  intl: ^0.19.0 # Adjusted to match syncfusion_flutter_calendar requirements
+  intl: ^0.19.0  # Update to match flutter_localizations requirement
   # animation icon .json
   lottie: ^3.1.0
   # local storage
@@ -65,7 +65,7 @@ dependencies:
   # font 
   google_fonts: ^6.1.0
   # awesome Notification
-  awesome_notifications: ^0.9.3+1
+  awesome_notifications: ^0.8.2
   # for custom change laguage calendars (like khmer , vietnamese , english ..etc.)
   flutter_localization: ^0.2.0
   # cached_network_image for When an image is loaded for the 
