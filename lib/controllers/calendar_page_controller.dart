@@ -48,7 +48,7 @@ class CalendarPageController extends GetxController {
   void alertNotification({required Task task}) {
     try {
       if (task.date == null || task.startTime == null) {
-        throw FormatException('Date or Start Time is null');
+        throw const FormatException('Date or Start Time is null');
       }
 
       DateTime taskDateTime = DateFormat("yyyy-MM-dd hh:mm a")
@@ -120,6 +120,7 @@ class CalendarPageController extends GetxController {
   }
 
   Future<void> getEventTaskFromServer() async {
+    // ignore: await_only_futures
     final int userId = await SharedPreferencesService.getUserId();
 
     // Fetch event tasks from the server
@@ -131,6 +132,7 @@ class CalendarPageController extends GetxController {
       appointments = getEventTaskAsAppointments(eventTaskList);
       update(); // Assuming update method exists to notify listeners
     } else {
+      // ignore: avoid_print
       print("Event task list is null or empty");
     }
   }

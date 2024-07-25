@@ -16,16 +16,19 @@ class LoginController extends GetxController {
   bool isLoading = false;
 
   @override
+  // ignore: unnecessary_overrides
   void onInit() {
     super.onInit();
   }
 
   @override
+  // ignore: unnecessary_overrides
   void onClose() {
     super.onClose();
   }
 
   void login(String email, String password) async {
+    // ignore: prefer_interpolation_to_compose_strings
     log("email: " + email + " password: " + password);
     isLoading = true;
     update();

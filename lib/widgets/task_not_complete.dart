@@ -14,6 +14,7 @@ class TaskNotComplete extends StatefulWidget {
   final List<EventTask>? eventTaskList;
 
   @override
+  // ignore: library_private_types_in_public_api
   _TaskNotCompleteState createState() => _TaskNotCompleteState();
 }
 
@@ -57,7 +58,7 @@ class _TaskNotCompleteState extends State<TaskNotComplete> {
   @override
   Widget build(BuildContext context) {
     return widget.eventTaskList!.isEmpty
-        ? Center(child: SimpleText(text: "Empty data"))
+        ? const Center(child: SimpleText(text: "Empty data"))
         : Scaffold(
             body: Column(
               children: [

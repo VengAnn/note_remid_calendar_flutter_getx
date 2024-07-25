@@ -10,7 +10,8 @@ import 'package:note_schedule_reminder/widgets/simple_text.dart';
 class TaskTileWidget extends StatelessWidget {
   final EventTask task;
 
-  TaskTileWidget({
+  const TaskTileWidget({
+    super.key,
     required this.task,
   });
 

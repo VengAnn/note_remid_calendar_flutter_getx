@@ -19,7 +19,7 @@ class DialogShow extends StatefulWidget {
   final bool isForUpdate;
   final Task? task; // Add this parameter to pass existing task data
 
-  DialogShow({
+  const DialogShow({
     Key? key,
     this.isForUpdate = false,
     this.task,
@@ -47,6 +47,7 @@ class _DialogShowState extends State<DialogShow> {
   // respeat can have more then this like None, Daily, weekly, monthly
   List<String> repeatList = ["None", "Daily"];
 
+  // ignore: prefer_final_fields
   FocusNode _focusNode = FocusNode();
 
   @override
@@ -61,7 +62,8 @@ class _DialogShowState extends State<DialogShow> {
     _startTime =
         widget.task?.startTime ?? DateFormat("hh:mm a").format(DateTime.now());
     _endTime = widget.task?.endTime ??
-        DateFormat("hh:mm a").format(DateTime.now().add(Duration(hours: 1)));
+        DateFormat("hh:mm a")
+            .format(DateTime.now().add(const Duration(hours: 1)));
     _selectedRemider = widget.task?.remind ?? 0;
     _selectedRepeat = widget.task?.repeat ?? "None";
     selectedIndexColor = widget.task?.color ?? 0;
@@ -464,7 +466,7 @@ class _DialogShowState extends State<DialogShow> {
       builder: (BuildContext context, Widget? child) {
         return Localizations.override(
           context: context,
-          locale: Locale('en', 'US'), // Set to English locale
+          locale: const Locale('en', 'US'), // Set to English locale
           child: child!,
         );
       },
@@ -521,7 +523,7 @@ class _DialogShowState extends State<DialogShow> {
           data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
           child: Localizations.override(
             context: context,
-            locale: Locale('en', 'US'), // Set to English locale
+            locale: const Locale('en', 'US'), // Set to English locale
             child: child!,
           ),
         );

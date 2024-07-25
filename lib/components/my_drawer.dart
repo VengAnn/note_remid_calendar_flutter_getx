@@ -37,7 +37,7 @@ class MyDrawer extends StatelessWidget {
                 padding: EdgeInsets.symmetric(
                     horizontal: Dimensions.width20,
                     vertical: Dimensions.height20),
-                child: Divider(
+                child: const Divider(
                   thickness: 2,
                 ),
               ),
